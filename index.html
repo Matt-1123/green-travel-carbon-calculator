@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Travel Carbon Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <form>
+    <div class="form-group">
+      <label for="from">From</label>
+      <input type="text" id="from" placeholder="Origin">
+    </div>
+    <div class="form-group">
+      <label for="from">To</label>
+      <input type="text" id="to" placeholder="Destination">
+    </div>
+  </form>
+  <button id="get-distance">Get Distance</button>
+
+  <div class="container">
+    <div id="map"></div>
+    <div id="test-output"></div>
+  </div>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgcU-cBKq4dzHUjPnYm8KnQ8gguiL5ZQM&libraries=places"></script>
+  <script src="app.js"></script>
+</body>
+</html>
