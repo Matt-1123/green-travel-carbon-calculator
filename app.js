@@ -36,6 +36,7 @@ const calcRoute = () => {
 
   // Pass the request to the route method
   directionsService.route(request, (result, status) => {
+    console.log(request);
     if (status == google.maps.DirectionsStatus.OK) {
       // Get distance
 

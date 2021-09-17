@@ -5,10 +5,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Green Travel Carbon Calculator</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+
 </head>
 <body>
-  <form>
+  <form class="container">
     <div class="form-group">
       <label for="from">From</label>
       <input type="text" id="from" placeholder="Origin">
@@ -18,7 +20,7 @@
       <input type="text" id="to" placeholder="Destination">
     </div>
   </form>
-  <button id="get-distance">Get Distance</button>
+  <button class="button is-primary" id="get-distance">Get Distance</button>
 
   <div class="container">
     <div id="map"></div>

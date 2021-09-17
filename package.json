@@ -1,0 +1,17 @@
+{
+  "name": "Green Travel Carbon Calculator",
+  "version": "1.0.0",
+  "engine": {
+    "node": "16.3.0"
+  },
+  "main": "index.html",
+  "author": "Matt Russo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Matt-1123/green-travel-carbon-calculator.git"
+  },
+  "dependencies": {
+    "bulma": "^0.9.3",
+    "node-sass": "^6.0.1"
+  }
+}
