@@ -10,17 +10,99 @@
 
 </head>
 <body>
+  <header class="container">
+    <h1>Travel Green Carbon Calculator</h1>
+  </header>
   <form class="container">
-    <div class="form-group">
+    <div class="field">
+      <div class="control">
+        <input class="input" type="text" placeholder="Title your trip">
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <label class="label">Description</label>
+        <input class="input" type="text" placeholder="(Optional) Describe your green travel">
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <label class="label">Date</label>
+        <input class="input" type="date">
+      </div>
+    </div>
+
+    <h2>Travel Used</h2>
+    <div class="field">
+      <label class="label">Travel type</label>
+      <div class="control">
+        <div class="select">
+          <select>
+            <option>Bicycling</option>
+            <option>Walking</option>
+            <option>Transit</option>
+            <option>Car</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <label class="label">Origin</label>
+        <input class="input" id="used-from" type="text">
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <label class="label">Destination</label>
+        <input class="input" id="used-to" type="text">
+      </div>
+    </div>
+
+    <h2>Travel Avoided</h2>
+    <div class="field">
+      <label class="label">Travel type</label>
+      <div class="control">
+        <div class="select">
+          <select>
+            <option>Car</option>
+            <option>Transit</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <label class="label">Origin</label>
+        <input class="input" id="used-from" type="text">
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <label class="label">Destination</label>
+        <input class="input" id="used-to" type="text">
+      </div>
+    </div>
+
+    <div class="field is-grouped">
+      <div class="control">
+        <button class="button is-link">Submit</button>
+      </div>
+      <div class="control">
+        <button class="button is-link is-light">Cancel</button>
+      </div>
+    </div>
+
+    <!-- <div class="form-group">
       <label for="from">From</label>
       <input type="text" id="from" placeholder="Origin">
     </div>
     <div class="form-group">
       <label for="from">To</label>
       <input type="text" id="to" placeholder="Destination">
-    </div>
+    </div> -->
   </form>
-  <button class="button is-primary" id="get-distance">Get Distance</button>
+  <!-- <button class="button is-primary" id="get-distance">Get Distance</button> -->
 
   <div class="container">
     <div id="map"></div>
