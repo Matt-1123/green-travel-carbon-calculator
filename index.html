@@ -10,14 +10,18 @@
 
 </head>
 <body>
-  <header class="container my-5">
-    <h1>Travel Green Carbon Calculator</h1>
+  <header class="hero is-success">
+    <div class="hero-body">
+      <h1 class="title">Travel Green Carbon Calculator</h1>
+      <p class="subtitle">Choose greener travel options and measure your impact in kg of CO2 emissions prevented.</p>
+    </div>
   </header>
-  <form class="container my-6">
-    
+
+  <form class="container my-6 mx-6">
     <div class="my-5">
       <div class="field">
         <div class="control">
+          <label class="label">Title</label>
           <input class="input" type="text" placeholder="Title your trip">
         </div>
       </div>
@@ -35,66 +39,77 @@
       </div>
     </div>
     
-    <div class="my-5">
-      <h2>Travel Used</h2>
-      <div class="field">
-        <label class="label">Travel type</label>
-        <div class="control">
-          <div class="select">
-            <select>
-              <option value="bicycling">Bicycling</option>
-              <option value="walking">Walking</option>
-              <option value="transit">Transit</option>
-              <option value="car">Car</option>
-            </select>
+    <div class="message is-success">
+      <div class="message-header">
+        <h2>Travel Used</h2>
+      </div>
+      <div class="message-body">       
+        <div class="field">
+          <label class="label">Travel type</label>
+          <div class="control">
+            <div class="select">
+              <select>
+                <option value="bicycling">Bicycling</option>
+                <option value="walking">Walking</option>
+                <option value="transit">Transit</option>
+                <option value="car">Car</option>
+              </select>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="field">
-        <div class="control">
-          <label class="label">Origin</label>
-          <input class="input" id="used-origin" type="text">
+        <div class="field">
+          <div class="control">
+            <label class="label">Origin</label>
+            <input class="input" id="used-origin" type="text">
+          </div>
         </div>
-      </div>
-      <div class="field">
-        <div class="control">
-          <label class="label">Destination</label>
-          <input class="input" id="used-destination" type="text">
+        <div class="field">
+          <div class="control">
+            <label class="label">Destination</label>
+            <input class="input" id="used-destination" type="text">
+          </div>
         </div>
+              
       </div>
+      
     </div>
-    
-    <div class="my-5">
-      <h2>Travel Avoided</h2>
-      <div class="field">
-        <label class="label">Travel type</label>
-        <div class="control">
-          <div class="select">
-            <select>
-              <option value="car">Car</option>
-              <option value="transit">Transit</option>
-            </select>
+
+    <div class="message is-warning">
+      <div class="message-header">
+        <h2>Travel Avoided</h2>
+      </div>
+      <div class="message-body">
+        <div class="field">
+          <label class="label">Travel type</label>
+          <div class="control">
+            <div class="select">
+              <select>
+                <option value="car">Car</option>
+                <option value="transit">Transit</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <label class="label">Origin</label>
+            <input class="input" id="avoided-origin" type="text">
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <label class="label">Destination</label>
+            <input class="input" id="avoided-destination" type="text">
           </div>
         </div>
       </div>
-      <div class="field">
-        <div class="control">
-          <label class="label">Origin</label>
-          <input class="input" id="avoided-origin" type="text">
-        </div>
-      </div>
-      <div class="field">
-        <div class="control">
-          <label class="label">Destination</label>
-          <input class="input" id="avoided-destination" type="text">
-        </div>
-      </div>
+      
     </div>
     
 
     <div class="field is-grouped">
       <div class="control">
-        <button class="button is-link">Calculate your impact</button>
+        <button class="button is-link is-success">Calculate your impact</button>
       </div>
       <div class="control">
         <button class="button is-link is-light">Cancel</button>
