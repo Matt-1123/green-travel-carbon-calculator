@@ -11,6 +11,7 @@
     "url": "git+https://github.com/Matt-1123/green-travel-carbon-calculator.git"
   },
   "dependencies": {
+    "axios": "^0.21.4",
     "bulma": "^0.9.3",
     "node-sass": "^6.0.1"
   }

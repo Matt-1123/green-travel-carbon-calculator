@@ -1,6 +1,7 @@
 // DOM Elements
 const usedOrigin = document.querySelector("#used-origin");
 const usedDestination = document.querySelector("#used-destination");
+const usedDistance = document.querySelector("#used-distance");
 const avoidedOrigin = document.querySelector("#avoided-origin");
 const avoidedDestination = document.querySelector("#avoided-destination");
 const calcImpact = document.querySelector("#calculate-impact");
@@ -30,10 +31,26 @@ const calculateImpact = (
     console.log(request);
     if (status == google.maps.DirectionsStatus.OK) {
       // Get distance
-
+      usedDistance.textContent = result.routes[0].legs[0].distance.text;
       console.log(result.routes[0].legs[0].distance.text);
+      tripToCarbon(result.routes[0].legs[0].distance.text);
     }
   });
+};
+
+const tripToCarbon = async (miles) => {
+  console.log("trip to carbon" + " " + miles);
+  try {
+    const { data } = await axios({
+      method: "GET",
+      url: "https://api.triptocarbon.xyz/v1/footprint?activity=10&activityType=miles&country=def&mode=taxi",
+      // error: Reason: CORS header 'Access-Control-Allow-Origin' missing
+      // https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors/CORSMissingAllowOrigin
+    });
+    usedDistance.textContent = data;
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 // Places Autocomplete

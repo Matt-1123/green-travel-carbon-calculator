@@ -7,6 +7,7 @@
   <title>Green Travel Carbon Calculator</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
   <link rel="stylesheet" href="/css/style.css">
+  <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
 
 </head>
 <body>
@@ -69,6 +70,13 @@
             <input class="input" id="used-destination" type="text">
           </div>
         </div>
+        <div class="field">
+          <div class="control">
+            <label class="label">Distance</label>
+            <input class="input is-hidden" id="used-destination" type="text">
+            <p id="used-distance"></p>
+          </div>
+        </div>
               
       </div>
       
@@ -96,7 +104,7 @@
             <input class="input" id="avoided-origin" type="text">
           </div>
         </div>
-        <div class="field">
+        <div class="field is-hidden">
           <div class="control">
             <label class="label">Destination</label>
             <input class="input" id="avoided-destination" type="text">
