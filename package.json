@@ -10,9 +10,16 @@
     "type": "git",
     "url": "git+https://github.com/Matt-1123/green-travel-carbon-calculator.git"
   },
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "axios": "^0.21.4",
     "bulma": "^0.9.3",
+    "express": "^4.17.1",
     "node-sass": "^6.0.1"
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^2.0.1"
   }
 }
