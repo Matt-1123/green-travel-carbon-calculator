@@ -8,7 +8,9 @@ const usedMapContainer = document.querySelector("#used-map-container");
 const avoidedTravelType = document.querySelector("#avoided-travel-type");
 const avoidedVehicle = document.querySelector("#vehicle-data");
 const vehicleMakeDropdown = document.querySelector("#vehicle-make-dropdown");
-const vehicleModelDropdown = document.querySelector("#vehicle-model-dropdown");
+const vehicleModelDropdown = document.querySelector(
+  "#vehicle-model-dropdown select"
+);
 const avoidedOrigin = document.querySelector("#avoided-origin");
 const avoidedDestination = document.querySelector("#avoided-destination");
 const avoidedDistance = document.querySelector("#avoided-distance");
@@ -22,7 +24,7 @@ const vehicleMakes = async () => {
       "https://www.carboninterface.com/api/v1/vehicle_makes",
       {
         headers: {
-          Authorization: "Bearer 92TNSMqdWepCrr3xJLeu3w",
+          Authorization: `Bearer ${config.CARBON_INTERFACE_BEARER_TOKEN}`,
           "Content-Type": "application/json",
         },
       }
@@ -49,7 +51,7 @@ const displayModels = async (make) => {
       `https://www.carboninterface.com/api/v1/vehicle_makes/${make}/vehicle_models`,
       {
         headers: {
-          Authorization: "Bearer 92TNSMqdWepCrr3xJLeu3w",
+          Authorization: `Bearer ${config.CARBON_INTERFACE_BEARER_TOKEN}`,
           "Content-Type": "application/json",
         },
       }
@@ -125,7 +127,7 @@ const tripToCarbon = async (distance, vehicle) => {
       tripData,
       {
         headers: {
-          Authorization: "Bearer 92TNSMqdWepCrr3xJLeu3w",
+          Authorization: `Bearer ${config.CARBON_INTERFACE_BEARER_TOKEN}`,
           "Content-Type": "application/json",
         },
       }

@@ -101,7 +101,7 @@
           </div>
         </div>
         <label class="label">Add your vehicle</label>
-        <div id="vehicle-data" class="field is-grouped">  
+        <div id="vehicle-data" class="field">  
           <div class="control">
             <div class="select">
               <select id="vehicle-make-dropdown">
@@ -109,6 +109,8 @@
               </select>
             </div>
           </div>
+        </div>
+        <div id="vehicle-model-dropdown" class="is-hidden">
           <div class="control">
             <div class="select">
               <select id="vehicle-model-dropdown" class="is-hidden">
@@ -152,6 +154,7 @@
   </form>
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgcU-cBKq4dzHUjPnYm8KnQ8gguiL5ZQM&libraries=places"></script>
+  <script type='text/javascript' src='config.js'></script>
   <script src="app.js" defer></script>
 </body>
 </html>
