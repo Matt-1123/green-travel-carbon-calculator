@@ -1,56 +1,72 @@
-// const express = require("express");
-// const { createProxyMiddleware } = require("http-proxy-middleware");
-
-// Create Express Server
-// const app = express();
-
-// Configuration
-// const PORT = 3000;
-// const HOST = "localhost";
-// const API_SERVICE_URL = "https://api.triptocarbon.xyz/v1/footprint";
-
-// api GET endpoint
-// app.get("/info", (req, res, next) => {
-//   res.send("test");
-// });
-
-// Authorization
-// app.use("", (req, res, next) => {
-//   if (req.headers.authorization) {
-//     next();
-//   } else {
-//     res.sendStatus(403);
-//   }
-// });
-
-// Proxy endpoints
-// app.use(
-//   "/tripToCarbon",
-//   createProxyMiddleware({
-//     target: API_SERVICE_URL,
-//     changeOrigin: true,
-//     // This way, when we, for example, send a request to localhost:3000/tripToCarbon/?activity=10&activityType=miles&country=def&mode=taxi, the URL will be rewritten to <API_SERVICE_URL>/?activity=10&activityType=miles&country=def&mode=taxi
-//     pathRewrite: {
-//       [`^/tripToCarbon`]: "",
-//     },
-//   })
-// );
-
-// Start the Proxy
-// app.listen(PORT, HOST, () => {
-//   console.log(`Starting Proxy at ${HOST}:${PORT}`);
-// });
+//const axios = require("axios");
 
 // DOM Elements
 const usedOrigin = document.querySelector("#used-origin");
 const usedDestination = document.querySelector("#used-destination");
 const usedDistance = document.querySelector("#used-distance");
 const usedMapContainer = document.querySelector("#used-map-container");
+const avoidedTravelType = document.querySelector("#avoided-travel-type");
+const avoidedVehicle = document.querySelector("#vehicle-data");
+const vehicleMakeDropdown = document.querySelector("#vehicle-make-dropdown");
+const vehicleModelDropdown = document.querySelector("#vehicle-model-dropdown");
 const avoidedOrigin = document.querySelector("#avoided-origin");
 const avoidedDestination = document.querySelector("#avoided-destination");
 const avoidedDistance = document.querySelector("#avoided-distance");
 const avoidedMapContainer = document.querySelector("#avoided-map-container");
 const calcImpact = document.querySelector("#calculate-impact");
+
+// Populate 'Vehicle Make' Dropdown
+const vehicleMakes = async () => {
+  try {
+    const result = await axios.get(
+      "https://www.carboninterface.com/api/v1/vehicle_makes",
+      {
+        headers: {
+          Authorization: "Bearer 92TNSMqdWepCrr3xJLeu3w",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(result.data);
+    result.data.forEach((make) => {
+      const makeName = make.data.attributes.name;
+      const makeID = make.data.id;
+      const option = document.createElement("option");
+      option.text = makeName;
+      option.setAttribute("value", makeID);
+      // option.setAttribute("data-id", makeID);
+      vehicleMakeDropdown.appendChild(option);
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// Populate 'Vehicle Models' Dropdown
+const displayModels = async (make) => {
+  try {
+    const result = await axios.get(
+      `https://www.carboninterface.com/api/v1/vehicle_makes/${make}/vehicle_models`,
+      {
+        headers: {
+          Authorization: "Bearer 92TNSMqdWepCrr3xJLeu3w",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(result.data);
+    result.data.reverse().forEach((model) => {
+      const modelName = `${model.data.attributes.name} (${model.data.attributes.year})`;
+      const modelID = model.data.id;
+      const option = document.createElement("option");
+      option.text = modelName;
+      option.setAttribute("value", modelID);
+      vehicleModelDropdown.appendChild(option);
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 // Calculate 'Used' Distances and Generate Map
 const calculateUsedImpact = (mapType, travelMode) => {
@@ -80,29 +96,41 @@ const calculateUsedImpact = (mapType, travelMode) => {
 
   // Pass the request to the route method
   directionsService.route(request, (result, status) => {
-    console.log(request);
     if (status == google.maps.DirectionsStatus.OK) {
       // Get distance
-      usedDistance.textContent = result.routes[0].legs[0].distance.text;
+      let distance = result.routes[0].legs[0].distance.text;
+      usedDistance.textContent = distance;
       // Display route
       directionsDisplay.setDirections(result);
       usedMapContainer.classList.remove("is-hidden");
+      // Get kg CO2 from distance
+      tripToCarbon(distance);
     } else {
       console.log("error");
     }
   });
 };
 
-const tripToCarbon = async (miles) => {
-  console.log("trip to carbon" + " " + miles);
+const tripToCarbon = async (distance, vehicle) => {
+  const tripData = {
+    type: "vehicle",
+    distance_unit: "mi",
+    distance_value: distance,
+    vehicle_model_id: vehicle,
+  };
+
   try {
-    const { data } = await axios({
-      method: "GET",
-      url: "https://api.triptocarbon.xyz/v1/footprint?activity=10&activityType=miles&country=def&mode=taxi",
-      // error: Reason: CORS header 'Access-Control-Allow-Origin' missing
-      // https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors/CORSMissingAllowOrigin
-    });
-    usedDistance.textContent = data;
+    const result = await axios.post(
+      "https://www.carboninterface.com/api/v1/estimates",
+      tripData,
+      {
+        headers: {
+          Authorization: "Bearer 92TNSMqdWepCrr3xJLeu3w",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(result.data.data.attributes.carbon_kg);
   } catch (err) {
     console.error(err);
   }
@@ -127,3 +155,21 @@ calcImpact.addEventListener("click", (e) => {
   usedOrigin.setAttribute("disabled", "disabled");
   usedDestination.setAttribute("disabled", "disabled");
 });
+
+avoidedTravelType.addEventListener("change", () => {
+  if (avoidedTravelType.value === "vehicle") {
+    avoidedVehicle.classList.remove("is-hidden");
+  } else {
+    avoidedVehicle.classList.add("is-hidden");
+  }
+});
+
+vehicleMakeDropdown.addEventListener("change", (e) => {
+  const makeID = e.target.value;
+  if (makeID) {
+    vehicleModelDropdown.classList.remove("is-hidden");
+  }
+  displayModels(makeID);
+});
+
+vehicleMakes();

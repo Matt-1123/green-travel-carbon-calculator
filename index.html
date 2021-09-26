@@ -92,9 +92,27 @@
           <label class="label">Travel type</label>
           <div class="control">
             <div class="select">
-              <select>
-                <option value="car">Car</option>
-                <option value="transit">Transit</option>
+              <select id="avoided-travel-type">
+                <option value="">Choose a travel type</option>
+                <option value="vehicle">Vehicle</option>
+                <option value="transit">Transit (coming soon)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <label class="label">Add your vehicle</label>
+        <div id="vehicle-data" class="field is-grouped">  
+          <div class="control">
+            <div class="select">
+              <select id="vehicle-make-dropdown">
+                <option>Select vehicle make</option>
+              </select>
+            </div>
+          </div>
+          <div class="control">
+            <div class="select">
+              <select id="vehicle-model-dropdown" class="is-hidden">
+                <option>Select vehicle model</option>
               </select>
             </div>
           </div>
@@ -134,6 +152,6 @@
   </form>
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgcU-cBKq4dzHUjPnYm8KnQ8gguiL5ZQM&libraries=places"></script>
-  <script src="app.js"></script>
+  <script src="app.js" defer></script>
 </body>
 </html>
