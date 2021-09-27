@@ -1,5 +1,3 @@
-//const axios = require("axios");
-
 // DOM Elements
 const usedTravelType = document.querySelector("#used-travel-type");
 const usedOrigin = document.querySelector("#used-origin");
@@ -203,7 +201,9 @@ const autocompleteAvoidedDestination = new google.maps.places.Autocomplete(
   avoidedDestination
 );
 
+// ---------------------------------------- //
 // Event Handlers
+// ---------------------------------------- //
 calcImpact.addEventListener("click", (e) => {
   e.preventDefault();
   calculateUsedImpact(usedTravelType.value);
@@ -230,4 +230,24 @@ vehicleMakeDropdown.addEventListener("change", (e) => {
     vehicleModelContainer.classList.remove("is-hidden");
   }
   displayModels(makeID);
+});
+
+// Auto fill avoided origin when checked
+const sameOrigin = document.querySelector("#same-origin");
+sameOrigin.addEventListener("change", () => {
+  if (sameOrigin.checked) {
+    avoidedOrigin.value = usedOrigin.value;
+  } else {
+    avoidedOrigin.value = "";
+  }
+});
+
+// Auto fill avoided destination when checked
+const sameDestination = document.querySelector("#same-destination");
+sameDestination.addEventListener("change", () => {
+  if (sameDestination.checked) {
+    avoidedDestination.value = usedDestination.value;
+  } else {
+    avoidedDestination.value = "";
+  }
 });
