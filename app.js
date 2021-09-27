@@ -1,13 +1,18 @@
 //const axios = require("axios");
 
 // DOM Elements
+const usedTravelType = document.querySelector("#used-travel-type");
 const usedOrigin = document.querySelector("#used-origin");
 const usedDestination = document.querySelector("#used-destination");
 const usedDistance = document.querySelector("#used-distance");
 const usedMapContainer = document.querySelector("#used-map-container");
 const avoidedTravelType = document.querySelector("#avoided-travel-type");
-const avoidedVehicle = document.querySelector("#vehicle-data");
-const vehicleMakeDropdown = document.querySelector("#vehicle-make-dropdown");
+const addVehicleLabel = document.querySelector("#add-vehicle-label");
+const vehicleMakeContainer = document.querySelector("#vehicle-make-dropdown");
+const vehicleMakeDropdown = document.querySelector(
+  "#vehicle-make-dropdown select"
+);
+const vehicleModelContainer = document.querySelector("#vehicle-model-dropdown");
 const vehicleModelDropdown = document.querySelector(
   "#vehicle-model-dropdown select"
 );
@@ -63,15 +68,18 @@ const displayModels = async (make) => {
       const option = document.createElement("option");
       option.text = modelName;
       option.setAttribute("value", modelID);
-      vehicleModelDropdown.appendChild(option);
+      document
+        .querySelector("#vehicle-model-dropdown select")
+        .appendChild(option);
     });
   } catch (err) {
     console.error(err);
   }
 };
-
+// ---------------------------------------- //
 // Calculate 'Used' Distances and Generate Map
-const calculateUsedImpact = (mapType, travelMode) => {
+// ---------------------------------------- //
+const calculateUsedImpact = (travelMode) => {
   const mapOptions = {
     zoom: 7,
     mapTypeId: "roadmap",
@@ -105,6 +113,51 @@ const calculateUsedImpact = (mapType, travelMode) => {
       // Display route
       directionsDisplay.setDirections(result);
       usedMapContainer.classList.remove("is-hidden");
+      // Get kg CO2 from distance
+      tripToCarbon(distance);
+    } else {
+      console.log("error");
+    }
+  });
+};
+
+// ---------------------------------------- //
+// Calculate 'Avoided' Distances and Generate Map
+// ---------------------------------------- //
+const calculateAvoidedImpact = (travelMode) => {
+  const mapOptions = {
+    zoom: 7,
+    mapTypeId: "roadmap",
+  };
+
+  // Create Map
+  const map = new google.maps.Map(avoidedMapContainer, mapOptions);
+
+  // Create a directionsService object to use the route method and get a result for the origin/destination/travelType request
+  const directionsService = new google.maps.DirectionsService();
+
+  // Create a DirectionsRenderer object to display route on map
+  const directionsDisplay = new google.maps.DirectionsRenderer();
+
+  // Bind the directionsRenderer to the map
+  directionsDisplay.setMap(map);
+
+  // create request object
+  const request = {
+    origin: avoidedOrigin.value,
+    destination: avoidedDestination.value,
+    travelMode: google.maps.TravelMode[travelMode.toUpperCase()], // WALKING, TRANSIT, BICYCLING
+  };
+
+  // Pass the request to the route method
+  directionsService.route(request, (result, status) => {
+    if (status == google.maps.DirectionsStatus.OK) {
+      // Get distance
+      let distance = result.routes[0].legs[0].distance.text;
+      avoidedDistance.textContent = distance;
+      // Display route
+      directionsDisplay.setDirections(result);
+      avoidedMapContainer.classList.remove("is-hidden");
       // Get kg CO2 from distance
       tripToCarbon(distance);
     } else {
@@ -153,14 +206,19 @@ const autocompleteAvoidedDestination = new google.maps.places.Autocomplete(
 // Event Handlers
 calcImpact.addEventListener("click", (e) => {
   e.preventDefault();
-  calculateUsedImpact("roadmap", "driving");
+  calculateUsedImpact(usedTravelType.value);
+  calculateAvoidedImpact(avoidedTravelType.value);
+
+  // Disable inputs
   usedOrigin.setAttribute("disabled", "disabled");
   usedDestination.setAttribute("disabled", "disabled");
 });
 
 avoidedTravelType.addEventListener("change", () => {
   if (avoidedTravelType.value === "vehicle") {
-    avoidedVehicle.classList.remove("is-hidden");
+    addVehicleLabel.classList.remove("is-hidden");
+    vehicleMakeContainer.classList.remove("is-hidden");
+    vehicleMakes();
   } else {
     avoidedVehicle.classList.add("is-hidden");
   }
@@ -169,9 +227,7 @@ avoidedTravelType.addEventListener("change", () => {
 vehicleMakeDropdown.addEventListener("change", (e) => {
   const makeID = e.target.value;
   if (makeID) {
-    vehicleModelDropdown.classList.remove("is-hidden");
+    vehicleModelContainer.classList.remove("is-hidden");
   }
   displayModels(makeID);
 });
-
-vehicleMakes();

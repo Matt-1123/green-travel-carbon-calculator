@@ -49,11 +49,10 @@
           <label class="label">Travel type</label>
           <div class="control">
             <div class="select">
-              <select>
+              <select id="used-travel-type">
                 <option value="bicycling">Bicycling</option>
                 <option value="walking">Walking</option>
-                <option value="transit">Transit</option>
-                <option value="car">Car</option>
+                <option value="transit" disabled>Transit (coming soon)</option>
               </select>
             </div>
           </div>
@@ -73,7 +72,6 @@
         <div class="field">
           <div class="control">
             <label class="label">Distance</label>
-            <input class="input is-hidden" id="used-destination" type="text">
             <p id="used-distance"></p>
           </div>
         </div>
@@ -94,17 +92,17 @@
             <div class="select">
               <select id="avoided-travel-type">
                 <option value="">Choose a travel type</option>
-                <option value="vehicle">Vehicle</option>
-                <option value="transit">Transit (coming soon)</option>
+                <option value="driving">Vehicle</option>
+                <option value="transit" disabled>Transit (coming soon)</option>
               </select>
             </div>
           </div>
         </div>
-        <label class="label">Add your vehicle</label>
-        <div id="vehicle-data" class="field">  
+        <label class="label is-hidden" id="add-vehicle-label">Add your vehicle</label>
+        <div id="vehicle-make-dropdown" class="field is-hidden">  
           <div class="control">
             <div class="select">
-              <select id="vehicle-make-dropdown">
+              <select>
                 <option>Select vehicle make</option>
               </select>
             </div>
@@ -113,7 +111,7 @@
         <div id="vehicle-model-dropdown" class="is-hidden">
           <div class="control">
             <div class="select">
-              <select id="vehicle-model-dropdown" class="is-hidden">
+              <select>
                 <option>Select vehicle model</option>
               </select>
             </div>
@@ -135,8 +133,15 @@
             <label for="same-destination">Same destination</label>
           </div>
         </div>
+        <div class="field">
+          <div class="control">
+            <label class="label">Distance</label>
+            <p id="avoided-distance"></p>
+          </div>
+        </div>
+        <!-- map container -->
+        <div class="map-container is-hidden" id="avoided-map-container"></div>
       </div>
-      
     </div>
     
 
