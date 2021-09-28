@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Green Travel Carbon Calculator</title>
+  <title>Travel Green Carbon Calculator</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
   <link rel="stylesheet" href="/css/style.css">
   <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
@@ -18,145 +18,147 @@
     </div>
   </header>
 
-  <form class="container my-6 mx-5">
-    <div class="my-5">
-      <div class="field">
-        <div class="control">
-          <label class="label">Title</label>
-          <input class="input" type="text" placeholder="Title your trip">
-        </div>
-      </div>
-      <div class="field">
-        <div class="control">
-          <label class="label">Description</label>
-          <input class="input" type="text" placeholder="(Optional) Describe your green travel">
-        </div>
-      </div>
-      <div class="field">
-        <div class="control">
-          <label class="label">Date</label>
-          <input class="input" type="date">
-        </div>
-      </div>
-    </div>
-    
-    <div class="message is-success">
-      <div class="message-header">
-        <h2>Travel Used</h2>
-      </div>
-      <div class="message-body">       
+  <div class="is-flex is-flex-direction-row is-justify-content-center">
+    <form class="container my-6 mx-5">
+      <div class="my-5">
         <div class="field">
-          <label class="label">Travel type</label>
           <div class="control">
-            <div class="select">
-              <select id="used-travel-type">
-                <option value="bicycling">Bicycling</option>
-                <option value="walking">Walking</option>
-                <option value="transit" disabled>Transit (coming soon)</option>
-              </select>
-            </div>
+            <label class="label">Title</label>
+            <input class="input" type="text" placeholder="Title your trip">
           </div>
         </div>
         <div class="field">
           <div class="control">
-            <label class="label">Origin</label>
-            <input class="input" id="used-origin" type="text">
+            <label class="label">Description</label>
+            <input class="input" type="text" placeholder="(Optional) Describe your green travel">
           </div>
         </div>
         <div class="field">
           <div class="control">
-            <label class="label">Destination</label>
-            <input class="input" id="used-destination" type="text">
+            <label class="label">Date</label>
+            <input class="input" type="date">
           </div>
         </div>
-        <div class="field">
-          <div class="control">
-            <label class="label">Distance</label>
-            <p id="used-distance"></p>
-          </div>
-        </div>
-        <!-- map container -->
-        <div class="map-container is-hidden" id="used-map-container"></div>
       </div>
       
-    </div>
+      <div class="message is-success">
+        <div class="message-header">
+          <h2>Travel Used</h2>
+        </div>
+        <div class="message-body">       
+          <div class="field">
+            <label class="label">Travel type</label>
+            <div class="control">
+              <div class="select">
+                <select id="used-travel-type">
+                  <option value="bicycling">Bicycling</option>
+                  <option value="walking">Walking</option>
+                  <option value="transit" disabled>Transit (coming soon)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <label class="label">Origin</label>
+              <input class="input" id="used-origin" type="text">
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <label class="label">Destination</label>
+              <input class="input" id="used-destination" type="text">
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <label class="label">Distance</label>
+              <p id="used-distance"></p>
+            </div>
+          </div>
+          <!-- map container -->
+          <div class="map-container is-hidden" id="used-map-container"></div>
+        </div>
+        
+      </div>
 
-    <div class="message is-warning">
-      <div class="message-header">
-        <h2>Travel Avoided</h2>
+      <div class="message is-warning">
+        <div class="message-header">
+          <h2>Travel Avoided</h2>
+        </div>
+        <div class="message-body">
+          <div class="field">
+            <label class="label">Travel type</label>
+            <div class="control">
+              <div class="select">
+                <select id="avoided-travel-type">
+                  <option value="">Choose a travel type</option>
+                  <option value="driving">Vehicle</option>
+                  <option value="transit" disabled>Transit (coming soon)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <label class="label is-hidden" id="add-vehicle-label">Add your vehicle</label>
+          <div id="vehicle-make-dropdown" class="field is-hidden">  
+            <div class="control">
+              <div class="select">
+                <select>
+                  <option>Select vehicle make</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div id="vehicle-model-dropdown" class="is-hidden">
+            <div class="control">
+              <div class="select">
+                <select>
+                  <option>Select vehicle model</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <label class="label">Origin</label>
+              <input class="input" id="avoided-origin" type="text">
+              <input type="checkbox" name="same-origin" id="same-origin">
+              <label for="same-origin">Same origin</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <label class="label">Destination</label>
+              <input class="input" id="avoided-destination" type="text">
+              <input type="checkbox" name="same-destination" id="same-destination">
+              <label for="same-destination">Same destination</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <label class="label">Distance</label>
+              <p id="avoided-distance"></p>
+            </div>
+          </div>
+          <!-- map container -->
+          <div class="map-container is-hidden" id="avoided-map-container"></div>
+        </div>
       </div>
-      <div class="message-body">
-        <div class="field">
-          <label class="label">Travel type</label>
-          <div class="control">
-            <div class="select">
-              <select id="avoided-travel-type">
-                <option value="">Choose a travel type</option>
-                <option value="driving">Vehicle</option>
-                <option value="transit" disabled>Transit (coming soon)</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <label class="label is-hidden" id="add-vehicle-label">Add your vehicle</label>
-        <div id="vehicle-make-dropdown" class="field is-hidden">  
-          <div class="control">
-            <div class="select">
-              <select>
-                <option>Select vehicle make</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div id="vehicle-model-dropdown" class="is-hidden">
-          <div class="control">
-            <div class="select">
-              <select>
-                <option>Select vehicle model</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="field">
-          <div class="control">
-            <label class="label">Origin</label>
-            <input class="input" id="avoided-origin" type="text">
-            <input type="checkbox" name="same-origin" id="same-origin">
-            <label for="same-origin">Same origin</label>
-          </div>
-        </div>
-        <div class="field">
-          <div class="control">
-            <label class="label">Destination</label>
-            <input class="input" id="avoided-destination" type="text">
-            <input type="checkbox" name="same-destination" id="same-destination">
-            <label for="same-destination">Same destination</label>
-          </div>
-        </div>
-        <div class="field">
-          <div class="control">
-            <label class="label">Distance</label>
-            <p id="avoided-distance"></p>
-          </div>
-        </div>
-        <!-- map container -->
-        <div class="map-container is-hidden" id="avoided-map-container"></div>
-      </div>
-    </div>
-    
+      
 
-    <div class="field is-grouped">
-      <div class="control">
-        <button id="calculate-impact" class="button is-link is-success">Calculate your impact</button>
+      <div class="field is-grouped">
+        <div class="control">
+          <button id="calculate-impact" class="button is-link is-success">Calculate your impact</button>
+        </div>
+        <div class="control">
+          <button class="button is-link is-light">Edit</button>
+        </div>
+        <div class="control">
+          <button class="button is-link is-light">Reset</button>
+        </div>
       </div>
-      <div class="control">
-        <button class="button is-link is-light">Edit</button>
-      </div>
-      <div class="control">
-        <button class="button is-link is-light">Reset</button>
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgcU-cBKq4dzHUjPnYm8KnQ8gguiL5ZQM&libraries=places"></script>
   <script type='text/javascript' src='config.js'></script>
