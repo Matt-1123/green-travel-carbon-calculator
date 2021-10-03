@@ -123,7 +123,7 @@
               <label class="label">Origin</label>
               <input class="input" id="avoided-origin" type="text">
               <input type="checkbox" name="same-origin" id="same-origin">
-              <label for="same-origin">Same origin</label>
+              <label for="same-origin">Same origin as travel used</label>
             </div>
           </div>
           <div class="field">
@@ -131,13 +131,19 @@
               <label class="label">Destination</label>
               <input class="input" id="avoided-destination" type="text">
               <input type="checkbox" name="same-destination" id="same-destination">
-              <label for="same-destination">Same destination</label>
+              <label for="same-destination">Same destination as travel used</label>
             </div>
           </div>
           <div class="field">
             <div class="control">
               <label class="label">Distance</label>
               <p id="avoided-distance"></p>
+            </div>
+          </div>
+          <div id="avoided-emissions" class="field is-hidden">
+            <div class="control">
+              <label class="label">Carbon Emissions Avoided</label>
+              <p></p>
             </div>
           </div>
           <!-- map container -->

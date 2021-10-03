@@ -11,12 +11,12 @@ const vehicleMakeDropdown = document.querySelector(
   "#vehicle-make-dropdown select"
 );
 const vehicleModelContainer = document.querySelector("#vehicle-model-dropdown");
-const vehicleModelDropdown = document.querySelector(
-  "#vehicle-model-dropdown select"
-);
+const vehicleModelDropdown = document.querySelector("#vehicle-model-dropdown");
 const avoidedOrigin = document.querySelector("#avoided-origin");
 const avoidedDestination = document.querySelector("#avoided-destination");
 const avoidedDistance = document.querySelector("#avoided-distance");
+const avoidedEmissions = document.querySelector("#avoided-emissions");
+const avoidedEmissionsText = document.querySelector("#avoided-emissions p");
 const avoidedMapContainer = document.querySelector("#avoided-map-container");
 const calcImpact = document.querySelector("#calculate-impact");
 
@@ -32,7 +32,6 @@ const vehicleMakes = async () => {
         },
       }
     );
-    console.log(result.data);
     result.data.forEach((make) => {
       const makeName = make.data.attributes.name;
       const makeID = make.data.id;
@@ -59,7 +58,6 @@ const displayModels = async (make) => {
         },
       }
     );
-    console.log(result.data);
     result.data.reverse().forEach((model) => {
       const modelName = `${model.data.attributes.name} (${model.data.attributes.year})`;
       const modelID = model.data.id;
@@ -111,8 +109,6 @@ const calculateUsedImpact = (travelMode) => {
       // Display route
       directionsDisplay.setDirections(result);
       usedMapContainer.classList.remove("is-hidden");
-      // Get kg CO2 from distance
-      tripToCarbon(distance);
     } else {
       console.log("error");
     }
@@ -122,6 +118,7 @@ const calculateUsedImpact = (travelMode) => {
 // ---------------------------------------- //
 // Calculate 'Avoided' Distances and Generate Map
 // ---------------------------------------- //
+
 const calculateAvoidedImpact = (travelMode) => {
   const mapOptions = {
     zoom: 7,
@@ -148,16 +145,18 @@ const calculateAvoidedImpact = (travelMode) => {
   };
 
   // Pass the request to the route method
+  let avoidedDistanceValue;
   directionsService.route(request, (result, status) => {
     if (status == google.maps.DirectionsStatus.OK) {
       // Get distance
-      let distance = result.routes[0].legs[0].distance.text;
-      avoidedDistance.textContent = distance;
+      avoidedDistanceValue = parseFloat(result.routes[0].legs[0].distance.text);
+      avoidedDistance.textContent = avoidedDistanceValue + " mi";
       // Display route
       directionsDisplay.setDirections(result);
       avoidedMapContainer.classList.remove("is-hidden");
-      // Get kg CO2 from distance
-      tripToCarbon(distance);
+
+      // Calculate avoided carbon emissions
+      tripToCarbon(avoidedDistanceValue, vehicleModelId);
     } else {
       console.log("error");
     }
@@ -171,7 +170,6 @@ const tripToCarbon = async (distance, vehicle) => {
     distance_value: distance,
     vehicle_model_id: vehicle,
   };
-
   try {
     const result = await axios.post(
       "https://www.carboninterface.com/api/v1/estimates",
@@ -183,7 +181,8 @@ const tripToCarbon = async (distance, vehicle) => {
         },
       }
     );
-    console.log(result.data.data.attributes.carbon_kg);
+    avoidedEmissions.classList.remove("is-hidden");
+    avoidedEmissionsText.textContent = `${result.data.data.attributes.carbon_kg} kg CO2`;
   } catch (err) {
     console.error(err);
   }
@@ -215,7 +214,7 @@ calcImpact.addEventListener("click", (e) => {
 });
 
 avoidedTravelType.addEventListener("change", () => {
-  if (avoidedTravelType.value === "vehicle") {
+  if (avoidedTravelType.value === "driving") {
     addVehicleLabel.classList.remove("is-hidden");
     vehicleMakeContainer.classList.remove("is-hidden");
     vehicleMakes();
@@ -230,6 +229,11 @@ vehicleMakeDropdown.addEventListener("change", (e) => {
     vehicleModelContainer.classList.remove("is-hidden");
   }
   displayModels(makeID);
+});
+
+let vehicleModelId;
+vehicleModelDropdown.addEventListener("change", (e) => {
+  vehicleModelId = e.target.value;
 });
 
 // Auto fill avoided origin when checked
