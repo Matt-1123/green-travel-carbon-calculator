@@ -19,6 +19,7 @@ const avoidedEmissions = document.querySelector("#avoided-emissions");
 const avoidedEmissionsText = document.querySelector("#avoided-emissions p");
 const avoidedMapContainer = document.querySelector("#avoided-map-container");
 const calcImpact = document.querySelector("#calculate-impact");
+const distanceContainer = document.querySelectorAll(".distance-container");
 
 // Populate 'Vehicle Make' Dropdown
 const vehicleMakes = async () => {
@@ -158,7 +159,7 @@ const calculateAvoidedImpact = (travelMode) => {
       // Calculate avoided carbon emissions
       tripToCarbon(avoidedDistanceValue, vehicleModelId);
     } else {
-      console.log("error");
+      console.error(google.maps.DirectionsStatus);
     }
   });
 };
@@ -207,6 +208,9 @@ calcImpact.addEventListener("click", (e) => {
   e.preventDefault();
   calculateUsedImpact(usedTravelType.value);
   calculateAvoidedImpact(avoidedTravelType.value);
+
+  // Display Distances
+  distanceContainer.forEach((div) => div.classList.remove("is-hidden"));
 
   // Disable inputs
   usedOrigin.setAttribute("disabled", "disabled");

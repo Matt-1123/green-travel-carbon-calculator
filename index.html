@@ -20,7 +20,7 @@
 
   <div class="is-flex is-flex-direction-row is-justify-content-center">
     <form class="container my-6 mx-5">
-      <div class="my-5">
+      <div class="my-5 px-5">
         <div class="field">
           <div class="control">
             <label class="label">Title</label>
@@ -71,7 +71,7 @@
             </div>
           </div>
           <div class="field">
-            <div class="control">
+            <div class="control distance-container is-hidden">
               <label class="label">Distance</label>
               <p id="used-distance"></p>
             </div>
@@ -122,20 +122,20 @@
             <div class="control">
               <label class="label">Origin</label>
               <input class="input" id="avoided-origin" type="text">
-              <input type="checkbox" name="same-origin" id="same-origin">
-              <label for="same-origin">Same origin as travel used</label>
+              <input class="mt-3" type="checkbox" name="same-origin" id="same-origin">
+              <label class="mt-3" for="same-origin">Same origin as travel used</label>
             </div>
           </div>
           <div class="field">
             <div class="control">
               <label class="label">Destination</label>
               <input class="input" id="avoided-destination" type="text">
-              <input type="checkbox" name="same-destination" id="same-destination">
-              <label for="same-destination">Same destination as travel used</label>
+              <input class="mt-3" type="checkbox" name="same-destination" id="same-destination">
+              <label class="mt-3" for="same-destination">Same destination as travel used</label>
             </div>
           </div>
           <div class="field">
-            <div class="control">
+            <div class="control distance-container is-hidden">
               <label class="label">Distance</label>
               <p id="avoided-distance"></p>
             </div>
@@ -152,9 +152,9 @@
       </div>
       
 
-      <div class="field is-grouped">
+      <div class="field is-grouped px-5">
         <div class="control">
-          <button id="calculate-impact" class="button is-link is-success">Calculate your impact</button>
+          <button id="calculate-impact" class="button is-link is-success">Calculate Impact</button>
         </div>
         <div class="control">
           <button class="button is-link is-light">Edit</button>
