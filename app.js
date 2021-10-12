@@ -7,10 +7,12 @@ const usedMapContainer = document.querySelector("#used-map-container");
 const avoidedTravelType = document.querySelector("#avoided-travel-type");
 const addVehicleLabel = document.querySelector("#add-vehicle-label");
 const vehicleMakeContainer = document.querySelector("#vehicle-make-dropdown");
+const vehicleMakeInput = document.querySelector("#vehicle-make-input");
 const vehicleMakeDropdown = document.querySelector(
   "#vehicle-make-dropdown select"
 );
 const vehicleModelContainer = document.querySelector("#vehicle-model-dropdown");
+const vehicleModelInput = document.querySelector("#vehicle-model-input");
 const vehicleModelDropdown = document.querySelector("#vehicle-model-dropdown");
 const avoidedOrigin = document.querySelector("#avoided-origin");
 const avoidedDestination = document.querySelector("#avoided-destination");
@@ -59,15 +61,21 @@ const displayModels = async (make) => {
         },
       }
     );
+
+    // clear dropdown list of models
+    const dropdown = document.querySelector("#vehicle-model-dropdown select");
+    while (dropdown.firstChild) {
+      dropdown.removeChild(dropdown.firstChild);
+    }
+
+    // populate dropdown with model options
     result.data.reverse().forEach((model) => {
       const modelName = `${model.data.attributes.name} (${model.data.attributes.year})`;
       const modelID = model.data.id;
       const option = document.createElement("option");
       option.text = modelName;
       option.setAttribute("value", modelID);
-      document
-        .querySelector("#vehicle-model-dropdown select")
-        .appendChild(option);
+      dropdown.appendChild(option);
     });
   } catch (err) {
     console.error(err);
@@ -201,6 +209,19 @@ const autocompleteAvoidedDestination = new google.maps.places.Autocomplete(
   avoidedDestination
 );
 
+const filterVehicle = (input, dropdown) => {
+  const options = dropdown.querySelectorAll("option");
+  console.log(options);
+  options.forEach((option) => {
+    const optionName = option.textContent || option.innerText;
+    if (optionName.toLowerCase().indexOf(input) > -1) {
+      option.style.display = "";
+    } else {
+      option.style.display = "none";
+    }
+  });
+};
+
 // ---------------------------------------- //
 // Event Handlers
 // ---------------------------------------- //
@@ -217,15 +238,30 @@ calcImpact.addEventListener("click", (e) => {
   usedDestination.setAttribute("disabled", "disabled");
 });
 
+// Display vehicle data when travel type is 'driving'
 avoidedTravelType.addEventListener("change", () => {
   if (avoidedTravelType.value === "driving") {
     addVehicleLabel.classList.remove("is-hidden");
     vehicleMakeContainer.classList.remove("is-hidden");
-    vehicleMakes();
   } else {
-    avoidedVehicle.classList.add("is-hidden");
+    addVehicleLabel.classList.add("is-hidden");
+    vehicleMakeContainer.classList.add("is-hidden");
   }
 });
+
+// Filter Vehicle Makes dropdown
+vehicleMakeInput.addEventListener("input", (e) => {
+  filterVehicle(e.target.value.toLowerCase(), vehicleMakeDropdown);
+});
+// Filter Vehicle Models dropdown
+vehicleModelInput.addEventListener("input", (e) => {
+  filterVehicle(e.target.value.toLowerCase(), vehicleModelDropdown);
+});
+
+// dropdown.forEach((select) => {
+//   console.log(select);
+//   const regex = new RegExp(input, "gi");
+// });
 
 vehicleMakeDropdown.addEventListener("change", (e) => {
   const makeID = e.target.value;
@@ -259,3 +295,6 @@ sameDestination.addEventListener("change", () => {
     avoidedDestination.value = "";
   }
 });
+
+// App init
+vehicleMakes();
