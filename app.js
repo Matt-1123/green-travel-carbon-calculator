@@ -22,6 +22,7 @@ const avoidedEmissionsText = document.querySelector("#avoided-emissions p");
 const avoidedMapContainer = document.querySelector("#avoided-map-container");
 const calcImpact = document.querySelector("#calculate-impact");
 const distanceContainer = document.querySelectorAll(".distance-container");
+const disabledEls = document.querySelectorAll(".form-container input, select"); // inputs and dropdowns disabled on submit
 
 // Populate 'Vehicle Make' Dropdown
 const vehicleMakes = async () => {
@@ -119,7 +120,7 @@ const calculateUsedImpact = (travelMode) => {
       directionsDisplay.setDirections(result);
       usedMapContainer.classList.remove("is-hidden");
     } else {
-      console.log("error");
+      console.error(google.maps.DirectionsStatus);
     }
   });
 };
@@ -211,7 +212,6 @@ const autocompleteAvoidedDestination = new google.maps.places.Autocomplete(
 
 const filterVehicle = (input, dropdown) => {
   const options = dropdown.querySelectorAll("option");
-  console.log(options);
   options.forEach((option) => {
     const optionName = option.textContent || option.innerText;
     if (optionName.toLowerCase().indexOf(input) > -1) {
@@ -233,9 +233,8 @@ calcImpact.addEventListener("click", (e) => {
   // Display Distances
   distanceContainer.forEach((div) => div.classList.remove("is-hidden"));
 
-  // Disable inputs
-  usedOrigin.setAttribute("disabled", "disabled");
-  usedDestination.setAttribute("disabled", "disabled");
+  // Disable inputs and dropdowns
+  disabledEls.forEach((el) => (el.disabled = true));
 });
 
 // Display vehicle data when travel type is 'driving'
@@ -258,11 +257,7 @@ vehicleModelInput.addEventListener("input", (e) => {
   filterVehicle(e.target.value.toLowerCase(), vehicleModelDropdown);
 });
 
-// dropdown.forEach((select) => {
-//   console.log(select);
-//   const regex = new RegExp(input, "gi");
-// });
-
+// When a vehicle make is chosen from the dropdown, pass the make ID to the displayModels function to allow user to choose their vehicle model next.
 vehicleMakeDropdown.addEventListener("change", (e) => {
   const makeID = e.target.value;
   if (makeID) {
@@ -271,6 +266,7 @@ vehicleMakeDropdown.addEventListener("change", (e) => {
   displayModels(makeID);
 });
 
+// When a vehicle model is chosen, store the id of the model in a variable in global scope. This will be used to calculate CO2 emissions avoided on submit.
 let vehicleModelId;
 vehicleModelDropdown.addEventListener("change", (e) => {
   vehicleModelId = e.target.value;
@@ -294,6 +290,13 @@ sameDestination.addEventListener("change", () => {
   } else {
     avoidedDestination.value = "";
   }
+});
+
+// Edit button: remove disabled attribute from inputs and dropdowns
+const editBtn = document.querySelector("#edit-btn");
+editBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  disabledEls.forEach((el) => (el.disabled = false));
 });
 
 // App init

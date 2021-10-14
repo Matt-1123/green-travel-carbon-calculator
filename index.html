@@ -19,7 +19,7 @@
   </header>
 
   <div class="is-flex is-flex-direction-row is-justify-content-center">
-    <form class="container my-6 mx-5">
+    <form class="container form-container my-6 mx-5">
       <div class="my-5 px-5">
         <div class="field">
           <div class="control">
@@ -93,7 +93,7 @@
               <div class="select">
                 <select id="avoided-travel-type">
                   <option value="">Choose a travel type</option>
-                  <option value="driving">Vehicle</option>
+                  <option value="driving" selected>Vehicle</option>
                   <option value="transit" disabled>Transit (coming soon)</option>
                 </select>
               </div>
@@ -159,7 +159,7 @@
           <button id="calculate-impact" class="button is-link is-success">Calculate Impact</button>
         </div>
         <div class="control">
-          <button class="button is-link is-light">Edit</button>
+          <button id="edit-btn" class="button is-link is-light">Edit</button>
         </div>
         <div class="control">
           <button class="button is-link is-light">Reset</button>
